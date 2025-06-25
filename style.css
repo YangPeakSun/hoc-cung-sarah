@@ -1,0 +1,1144 @@
+:root {
+    --primary-color: #FFB6C1; /* Light Pink - Default */
+    --secondary-color: #FFDAB9; /* Peach Puff */
+    --accent-color: #ADD8E6; /* Light Blue */
+    --text-color: #333;
+    --card-bg: #FFF0F5; /* Lavender Blush */
+    --button-bg: #FFA07A; /* Light Salmon */
+    --button-hover-bg: #FA8072; /* Salmon */
+    --font-family: 'Montserrat', sans-serif;
+    --border-radius: 8px;
+    --box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+body {
+    font-family: var(--font-family);
+    margin: 0;
+    padding: 0;
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    transition: background-color 0.3s ease;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* POPUP STYLES */
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    padding: 15px;
+    box-sizing: border-box;
+}
+
+.popup {
+    background-color: white;
+    padding: 25px 30px;
+    border-radius: var(--border-radius);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    text-align: center;
+    max-width: 90%;
+    width: 450px;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+.popup h2, .popup h3 {
+    margin-top: 0;
+    color: var(--button-bg);
+}
+.popup input, .popup select {
+    width: calc(100% - 22px); /* Full width minus padding */
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: var(--border-radius);
+    box-sizing: border-box;
+    font-size: 1em;
+}
+.popup button {
+    padding: 10px 20px;
+    background-color: var(--button-bg);
+    color: white;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.2s;
+    margin: 5px;
+}
+.popup button:hover {
+    background-color: var(--button-hover-bg);
+}
+#general-popup-actions button {
+    margin: 0 5px;
+}
+#general-popup-message-container {
+    margin-bottom: 15px;
+}
+#general-popup-message-container p {
+    margin: 0 0 10px 0;
+}
+#general-popup-message-container select,
+#general-popup-message-container input[type="number"] {
+    display: block;
+    margin: 10px auto; /* Center align for select/input */
+    width: 80%; /* Adjust width as needed */
+}
+
+.warning-btn {
+    background-color: #dc3545 !important;
+}
+.warning-btn:hover {
+    background-color: #c82333 !important;
+}
+
+
+.avatar-selection img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    margin: 20px;
+    cursor: pointer;
+    border: 10px solid transparent;
+    transition: border-color 0.2s;
+    object-fit: cover;
+}
+.avatar-selection img:hover, .avatar-selection img.selected {
+    border-color: var(--button-bg);
+}
+
+#api-key-setup .popup input[type="password"] {
+    margin-bottom: 10px;
+}
+#api-key-setup .popup p {
+    margin-bottom: 15px;
+    font-size: 0.9em;
+    line-height: 1.4;
+}
+/* POPUP STYLES - MODIFICATION for avatar-selection removal if not used elsewhere */
+/* .avatar-selection img { ... }
+.avatar-selection img:hover, .avatar-selection img.selected { ... } */
+/* These might be removed if #avatar-popup is fully replaced by #chien-tuong-popup */
+
+
+/* Chien Tuong Selection Popup */
+#chien-tuong-popup .chien-tuong-selection {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: stretch; /* Align items to have same height if content varies */
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.chien-tuong-card {
+    position: relative;
+    width: 120px; /* Adjust for 5 items in a row on wider screens, or less for smaller */
+    /* min-height: 180px; */ /* Ensure enough height for content */
+    border: 3px solid transparent;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.8); /* Slightly transparent card background */
+    padding: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between; /* Pushes element name and effect down */
+    overflow: hidden; /* Important for containing effects */
+}
+
+.chien-tuong-card img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 8px;
+    border: 2px solid #ccc; /* Simple border for avatar */
+    transition: border-color 0.3s;
+}
+
+.chien-tuong-card .element-name {
+    font-weight: bold;
+    font-size: 0.95em;
+    margin-top: 5px; /* Space above name */
+    margin-bottom: 8px; /* Space below name, before effect area */
+    color: #333;
+}
+
+.chien-tuong-card:hover {
+    transform: translateY(-5px) scale(1.03);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+}
+.chien-tuong-card:hover img {
+    border-color: var(--accent-color);
+}
+
+.chien-tuong-card.selected {
+    border-color: var(--button-hover-bg);
+    box-shadow: 0 0 12px var(--button-hover-bg), 0 0 5px var(--button-hover-bg) inset;
+}
+.chien-tuong-card.selected img {
+    border-color: var(--button-hover-bg);
+}
+
+
+/* Elemental Effects Base */
+.element-effect {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%; /* Cover the whole card for background effects */
+    z-index: -1; /* Behind other content like img and name */
+    opacity: 0; /* Hidden by default, shown on hover/selected or always slightly visible */
+    transition: opacity 0.5s ease;
+    pointer-events: none; /* So it doesn't interfere with clicks on the card */
+}
+
+.chien-tuong-card:hover .element-effect,
+.chien-tuong-card.selected .element-effect {
+    opacity: 0.15; /* Make effect slightly visible on hover/selection */
+}
+.chien-tuong-card .element-effect div { /* Common for particles */
+    position: absolute;
+    border-radius: 50%;
+}
+
+/* Mộc (Wood) - Green, leaves */
+.moc-effect .leaf {
+    background-color: #2e7d32; /* Darker green for leaves */
+    width: 8px; height: 12px;
+    clip-path: ellipse(40% 50% at 50% 50%); /* Leaf shape */
+    animation: float-leaf 5s infinite ease-in-out;
+}
+.moc-effect .leaf:nth-child(1) { left: 20%; top: 70%; animation-delay: 0s; transform: rotate(-20deg); }
+.moc-effect .leaf:nth-child(2) { left: 50%; top: 80%; animation-delay: 1.5s; transform: rotate(10deg); }
+.moc-effect .leaf:nth-child(3) { left: 75%; top: 65%; animation-delay: 3s; transform: rotate(30deg); }
+@keyframes float-leaf {
+    0%, 100% { transform: translateY(0px) rotate(-20deg); }
+    50% { transform: translateY(-10px) rotate(20deg) scale(1.1); }
+}
+
+/* Kim (Metal) - Gold/Silver, sparks/shards */
+.kim-effect .spark {
+    background-color: #FFD700; /* Gold */
+    width: 5px; height: 5px;
+    box-shadow: 0 0 5px #FFD700, 0 0 10px #FFF;
+    animation: sparkle 1.5s infinite linear;
+}
+.kim-effect .spark:nth-child(1) { left: 30%; top: 75%; animation-delay: 0s; }
+.kim-effect .spark:nth-child(2) { left: 60%; top: 65%; animation-delay: 0.5s; }
+.kim-effect .spark:nth-child(3) { left: 45%; top: 85%; animation-delay: 1s; }
+@keyframes sparkle {
+    0%, 100% { opacity: 0; transform: scale(0.5); }
+    50% { opacity: 1; transform: scale(1.2); }
+}
+
+/* Thủy (Water) - Blue, drops/waves */
+.thuy-effect .drop {
+    background-color: #1565c0; /* Deep blue */
+    width: 10px; height: 10px;
+    animation: fall-drop 3s infinite cubic-bezier(0.55, 0.085, 0.68, 0.53); /* Ease-in for falling */
+}
+.thuy-effect .drop:nth-child(1) { left: 25%; top: 60%; animation-delay: 0s; }
+.thuy-effect .drop:nth-child(2) { left: 55%; top: 50%; animation-delay: 0.8s; }
+.thuy-effect .drop:nth-child(3) { left: 70%; top: 70%; animation-delay: 1.6s; }
+@keyframes fall-drop {
+    0% { transform: translateY(-20px) scaleY(0.8); opacity: 0; }
+    20% { opacity: 1; }
+    80% { transform: translateY(30px) scaleY(1.2); opacity: 1; } /* Simulate splash at bottom */
+    100% { transform: translateY(35px) scaleY(1); opacity: 0; }
+}
+
+/* Hỏa (Fire) - Red/Orange, flames */
+.hoa-effect .flame {
+    background: orangered;
+    width: 12px; height: 18px;
+    border-radius: 50% 50% 20% 20% / 60% 60% 40% 40%; /* Flame shape */
+    transform-origin: bottom center;
+    animation: flicker-flame 1s infinite alternate;
+}
+.hoa-effect .flame:nth-child(1) { left: 20%; bottom: 10px; animation-delay: 0s; transform: scale(0.8); }
+.hoa-effect .flame:nth-child(2) { left: 45%; bottom: 5px; animation-delay: 0.3s; transform: scale(1); }
+.hoa-effect .flame:nth-child(3) { left: 70%; bottom: 12px; animation-delay: 0.6s; transform: scale(0.9); }
+@keyframes flicker-flame {
+    0% { transform: scaleY(1) rotate(-2deg); opacity: 0.8; }
+    50% { transform: scaleY(1.3) rotate(2deg) translateY(-5px); opacity: 1; }
+    100% { transform: scaleY(0.9) rotate(0deg); opacity: 0.7; }
+}
+
+
+/* Thổ (Earth) - Brown/Yellow, rocks/cracks */
+.tho-effect .rock {
+    background-color: #795548; /* Brown */
+    width: 12px; height: 10px;
+    clip-path: polygon(0% 20%, 20% 0%, 80% 0%, 100% 20%, 100% 80%, 80% 100%, 20% 100%, 0% 80%); /* Irregular rock */
+    animation: shake-rock 4s infinite linear;
+}
+.tho-effect .rock:nth-child(1) { left: 15%; top: 70%; animation-delay: 0s; transform: rotate(15deg); }
+.tho-effect .rock:nth-child(2) { left: 40%; top: 80%; animation-delay: 1s; transform: rotate(-10deg); }
+.tho-effect .rock:nth-child(3) { left: 70%; top: 65%; animation-delay: 2s; transform: rotate(5deg); }
+@keyframes shake-rock {
+    0%, 100% { transform: translateX(0) translateY(0) rotate(5deg); }
+    25% { transform: translateX(-2px) translateY(1px) rotate(-3deg); }
+    50% { transform: translateX(2px) translateY(-1px) rotate(2deg); }
+    75% { transform: translateX(-1px) translateY(2px) rotate(-5deg); }
+}
+
+#chien-tuong-popup #confirm-chien-tuong-btn {
+    margin-top: 15px; /* Space above confirm button */
+    padding: 10px 25px;
+    font-size: 1.1em;
+}
+
+/* Optional: Border colors for user avatar based on element */
+.user-info img.moc-border { border: 3px solid #4CAF50 !important; box-shadow: 0 0 5px #4CAF50; }
+.user-info img.kim-border { border: 3px solid #FFC107 !important; box-shadow: 0 0 5px #FFC107; }
+.user-info img.thuy-border { border: 3px solid #2196F3 !important; box-shadow: 0 0 5px #2196F3; }
+.user-info img.hoa-border { border: 3px solid #F44336 !important; box-shadow: 0 0 5px #F44336; }
+.user-info img.tho-border { border: 3px solid #795548 !important; box-shadow: 0 0 5px #795548; }
+
+
+@media (max-width: 768px) {
+    .chien-tuong-card {
+        width: calc(33.33% - 20px); /* 3 cards per row */
+        /* min-height: 160px; */
+    }
+    .chien-tuong-card img { width: 60px; height: 60px; }
+    .chien-tuong-card .element-name { font-size: 0.9em; }
+}
+@media (max-width: 480px) {
+    .chien-tuong-card {
+        width: calc(50% - 15px); /* 2 cards per row */
+        /* min-height: 150px; */
+    }
+     .chien-tuong-card img { width: 50px; height: 50px; }
+    .chien-tuong-card .element-name { font-size: 0.8em; }
+}
+
+/* APP CONTAINER */
+#app-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 15px;
+    background-color: #fffaf0; /* FloralWhite - slightly off-white for main app area */
+    min-height: 100vh;
+    box-sizing: border-box;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 2px solid var(--secondary-color);
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+}
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.user-info img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 2px solid var(--accent-color);
+    object-fit: cover;
+}
+.user-info > div {
+    line-height: 1.3;
+}
+.points-info {
+    font-weight: bold;
+    margin-top: 4px;
+    font-size: 0.95em;
+    color: var(--button-hover-bg);
+}
+.title-badge {
+    background-color: var(--accent-color);
+    color: white;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 0.8em;
+    display: inline-block;
+    margin-top: 4px;
+}
+
+.header-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.small-btn {
+    padding: 6px 12px;
+    font-size: 0.9em;
+    background-color: var(--secondary-color);
+    color: var(--text-color);
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: background-color 0.2s, opacity 0.2s;
+}
+.small-btn:hover {
+    background-color: var(--accent-color);
+    color: white;
+    opacity: 0.9;
+}
+
+
+#main-nav {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+.nav-btn {
+    padding: 10px 12px;
+    background-color: var(--button-bg);
+    color: white;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: background-color 0.2s;
+    font-weight: 600;
+    font-size: 0.9em;
+}
+.nav-btn.active, .nav-btn:hover {
+    background-color: var(--button-hover-bg);
+}
+
+main {
+    padding: 15px;
+    background-color: var(--card-bg);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+}
+.screen h2 {
+    color: var(--button-hover-bg);
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* DASHBOARD */
+.progress-bar-container {
+    width: 100%;
+    background-color: #e0e0e0;
+    border-radius: var(--border-radius);
+    margin-bottom: 5px;
+    overflow: hidden;
+}
+.progress-bar {
+    width: 0%;
+    height: 20px;
+    background-color: var(--accent-color);
+    border-radius: var(--border-radius);
+    text-align: center;
+    line-height: 20px;
+    color: white;
+    transition: width 0.5s ease-in-out;
+}
+#daily-task-status {
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.chat-bubble {
+    margin-top: 0;
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: var(--secondary-color);
+    border-radius: var(--border-radius) var(--border-radius) var(--border-radius) 0;
+    position: relative;
+    max-width: 100%;
+    box-shadow: var(--box-shadow);
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+}
+.sarah-chat-avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 4px solid var(--accent-color);
+    flex-shrink: 0;
+    object-fit: cover;
+}
+.sarah-chat-content {
+    flex-grow: 1;
+}
+.chat-bubble::before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: -10px;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 10px 10px 0;
+    border-color: transparent var(--secondary-color) transparent transparent;
+}
+
+.tasks-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 15px;
+}
+.task-card {
+    background-color: white;
+    padding: 15px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    border: 1px solid #eee;
+}
+.task-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+.task-card.completed {
+    background-color: #d4edda; /* Light green for completed */
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+.task-card.completed:hover { transform: none; }
+.task-card p { margin: 0; font-size: 0.95em; }
+
+
+/* LEARNING SCREEN */
+#learning-screen #start-quiz-btn {
+    display: block;
+    margin: 40px auto;
+    padding: 12px 25px;
+    font-size: 2.2em;
+}
+
+#quiz-loading-indicator {
+    text-align: center;
+    padding: 20px;
+    font-size: 1.2em;
+    color: var(--button-hover-bg);
+    font-weight: bold;
+}
+#gemini-status, #quiz-sets-today-p {
+    text-align: center;
+    margin-bottom: 10px;
+    font-size: 0.9em;
+}
+#learning-screen #quiz-area:not(.hidden),
+#learning-screen #mini-game-area:not(.hidden) {
+    border: 1px solid var(--secondary-color);
+    background-color: white;
+    padding: 20px;
+    border-radius: var(--border-radius);
+    margin-top: 20px;
+    box-shadow: var(--box-shadow);
+}
+.timer-container {
+    text-align: center;
+    font-size: 1.1em;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: var(--button-hover-bg);
+}
+#question-container {
+    margin-bottom: 20px;
+    font-size: 1.3em;
+    font-weight: 600;
+}
+#question-text { line-height: 1.4; }
+.translation {
+    font-size: 0.9em;
+    font-style: italic;
+    color: #555;
+    margin-top: 8px;
+}
+.options-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 10px;
+    margin-bottom: 20px;
+}
+.option-btn {
+    padding: 15px;
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    text-align: left;
+    transition: background-color 0.2s, transform 0.1s;
+    font-size: 1em;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+}
+.option-btn:hover:not(.disabled) {
+    background-color: #87CEEB; /* Slightly darker blue for hover */
+    transform: translateY(-2px);
+}
+.option-btn.correct { background-color: #90EE90 !important; color: #155724 !important; } /* LightGreen for correct */
+.option-btn.incorrect { background-color: #F08080 !important; color: #721c24 !important; } /* LightCoral for incorrect */
+.option-btn.disabled { opacity: 0.7; cursor: not-allowed; transform: none; }
+
+#quiz-feedback, #mini-game-feedback {
+    margin-top: 15px;
+    font-weight: bold;
+    padding: 10px;
+    border-radius: var(--border-radius);
+    background-color: #f8f9fa; /* Very light grey */
+    border: 1px solid #dee2e6; /* Light grey border */
+}
+#next-question-btn {
+    display: block;
+    margin: 20px auto 0;
+    padding: 10px 20px;
+}
+.fireworks { color: gold; font-size: 1.5em; }
+.sad-face { color: red; font-size: 1.5em; }
+
+/* STORE SCREEN */
+.tabs { display: flex; margin-bottom: 15px; border-bottom: 1px solid #ccc; flex-wrap: wrap; }
+.tab-button { padding: 10px 15px; cursor: pointer; border: none; background-color: transparent; border-bottom: 3px solid transparent; margin-right: 5px; font-size: 1em; font-weight: 500; color: var(--text-color); }
+.tab-button.active { border-bottom-color: var(--button-hover-bg); font-weight: bold; color: var(--button-hover-bg); }
+.store-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 20px; }
+.tab-content { display: none; }
+.tab-content.active { display: grid; }
+
+.store-item { background-color: white; padding: 15px; border-radius: var(--border-radius); box-shadow: var(--box-shadow); text-align: center; display: flex; flex-direction: column; justify-content: space-between; border: 1px solid #e9ecef; }
+.store-item .item-icon { width: 80px; height: 80px; object-fit: contain; margin-bottom: 10px; align-self: center; }
+.store-item .item-icon.emoji-icon { font-size: 3em; line-height: 80px; }
+.store-item h4 { margin: 10px 0 5px 0; font-size: 1.1em; }
+.store-item p { margin: 5px 0; font-size: 0.9em; }
+.buy-btn { padding: 8px 15px; background-color: var(--button-bg); color: white; border: none; border-radius: var(--border-radius); cursor: pointer; margin-top: 10px; font-weight: 600; transition: background-color 0.2s; }
+.buy-btn:hover:not(:disabled) { background-color: var(--button-hover-bg); }
+.buy-btn:disabled { background-color: #ccc; cursor: not-allowed; }
+
+.store-item.locked { opacity: 0.6; background-color: #f8f9fa; }
+.store-item.locked .buy-btn { /* Make button visible but styled as disabled if part of .locked */
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+.store-item.locked p:last-of-type:not(:first-child) { 
+    font-weight: bold; color: #6c757d; font-size: 0.85em; margin-top: 5px;
+}
+
+.store-item.mystery-pet { /* For pets that are "Thú Cưng Bí Ẩn" */
+    /* opacity: 0.8; */ /* Example: slightly less opaque than fully locked */
+    /* border: 1px dashed #adb5bd; */
+}
+.store-item.mystery-pet .buy-btn {
+    background-color: #6c757d; /* Grey button for mystery items */
+    color: #e9ecef;
+}
+.store-item.mystery-pet .buy-btn:hover {
+    background-color: #5a6268;
+}
+
+.store-item.owned-pet-in-store {
+    opacity: 0.6; 
+}
+.store-item.owned-pet-in-store .buy-btn {
+    background-color: #6c757d;
+    color: #e9ecef;
+    cursor: not-allowed;
+}
+.store-item.owned-pet-in-store .buy-btn:hover {
+    background-color: #6c757d;
+}
+
+
+/* COLLECTIONS SCREEN STYLES */
+#collections-screen h3 {
+    margin-top: 25px;
+    margin-bottom: 10px;
+    color: var(--button-hover-bg);
+    border-bottom: 1px solid var(--secondary-color);
+    padding-bottom: 8px;
+    font-size: 1.3em;
+}
+#collections-screen h3:first-of-type {
+    margin-top: 0;
+}
+.collection-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 15px;
+    margin-bottom: 25px;
+}
+.pets-collection-grid {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.collection-item {
+    background-color: white;
+    padding: 15px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    text-align: center;
+    border: 1px solid #e9ecef;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 120px;
+}
+.collection-item .item-icon {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+    margin-bottom: 10px;
+}
+.collection-item .item-icon.emoji-icon {
+    font-size: 2.5em;
+    line-height: 60px;
+}
+.collection-item h4 {
+    margin: 5px 0 8px 0;
+    font-size: 1em;
+    font-weight: 600;
+    word-break: break-word;
+}
+.collection-grid > p { /* Targeting the "Em chưa sở hữu..." paragraph */
+    grid-column: 1 / -1; /* Make it span all columns */
+    text-align: center;
+    font-style: italic;
+    color: #6c757d;
+    padding: 10px 0;
+}
+.titles-collection .collection-item h4 {
+    font-size: 1.1em;
+    font-weight: bold;
+}
+.accessory-collection-item .equip-item-btn,
+.skill-collection-item .equip-item-btn {
+    margin-top: 10px;
+}
+
+/* Pet Health specific styles */
+.pet-collection-item {
+    min-height: 220px;
+    justify-content: flex-start;
+}
+.pet-health-bar-container {
+    width: 90%;
+    height: 15px;
+    background-color: #e9ecef;
+    border-radius: var(--border-radius);
+    margin: 8px auto;
+    overflow: hidden;
+    border: 1px solid #ced4da;
+}
+.pet-health-bar {
+    height: 100%;
+    border-radius: calc(var(--border-radius) - 2px);
+    transition: width 0.5s ease, background-color 0.5s ease;
+    box-shadow: inset 0 -1px 1px rgba(0,0,0,0.1);
+}
+.pet-health-text {
+    font-size: 0.9em;
+    margin: 8px 0 12px 0;
+    color: #495057;
+    font-weight: 500;
+}
+.pet-care-actions {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 100%;
+    margin-top: auto;
+    padding-top: 10px;
+    border-top: 1px solid #eee;
+}
+.care-btn {
+    padding: 8px 12px;
+    font-size: 0.85em;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    background-color: var(--accent-color);
+    color: white;
+    transition: background-color 0.2s, transform 0.1s;
+    min-width: 80px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+.care-btn:hover:not(:disabled) {
+    background-color: #7AB8CC;
+    transform: translateY(-1px);
+}
+.care-btn:disabled {
+    background-color: #adb5bd;
+    cursor: not-allowed;
+    color: #6c757d;
+}
+
+
+/* ACHIEVEMENTS SCREEN */
+#achievements-screen h3 { /* General h3 for Danh Hieu, Thong Ke etc. */
+    margin-top: 25px;
+    color: var(--button-hover-bg);
+    border-bottom: 1px solid var(--secondary-color);
+    padding-bottom: 5px;
+    font-size: 1.3em;
+}
+#achievements-screen h3:first-of-type {
+    margin-top: 15px;
+}
+#achievements-screen h4 { /* For Leaderboard title */
+    margin-top: 20px;
+    margin-bottom: 5px;
+    color: var(--button-hover-bg);
+    font-size: 1.1em;
+    text-align: center;
+}
+
+#achievements-screen .chien-tuong-container h3 { /* Specific h3 for Chien Tuong inside its container */
+    border-bottom: none;
+    margin-bottom: 20px;
+    font-size: 1.4em; /* Match general H3 or slightly larger */
+}
+
+
+.chien-tuong-container {
+    background-color: white;
+    padding: 20px;
+    margin-bottom: 25px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    text-align: center;
+    border: 1px solid var(--secondary-color);
+}
+
+.chien-tuong-avatar-stars {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+#chien-tuong-avatar {
+    width: 240px; 
+    height: 240px; 
+    border-radius: var(--border-radius); 
+    object-fit: cover;
+    border: 2px solid #FF6347; 
+    box-shadow: 0 0 10px 4px #FFA500, 
+                0 0 20px 8px #FF4500, 
+                0 0 5px 2px #FFD700 inset; 
+    transition: transform 0.3s ease; 
+}
+#chien-tuong-avatar:hover {
+    transform: scale(1.03); 
+}
+
+.stars-display {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    font-size: 2em;
+    color: #FFD700; 
+    height: 30px; 
+}
+.stars-display .star {
+    display: inline-block;
+    transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55), opacity 0.3s ease-in;
+    opacity: 0;
+    transform: scale(0.3) rotate(-45deg);
+}
+.stars-display .star.visible {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+}
+.stars-display .star.upgrading { 
+    animation: starUpgradePulse 0.7s ease-out;
+}
+
+#chien-tuong-level-name {
+    font-weight: bold;
+    font-size: 1.2em; 
+    color: var(--button-hover-bg); 
+    margin-top: 10px;
+}
+
+.chien-luc-text { 
+    font-size: 1.1em;
+    font-weight: bold;
+    margin-top: 10px;
+    color: var(--text-color); 
+}
+
+#chien-luc-value { 
+    padding: 3px 8px; /* Slightly more padding */
+    border-radius: var(--border-radius);
+    font-weight: bold;
+    transition: color 0.3s ease, background-color 0.3s ease;
+    display: inline-block; /* Ensures padding and background are applied correctly */
+    min-width: 30px; /* Ensure some width even for single digit numbers */
+    text-align: center;
+}
+
+
+#chien-tuong-upgrade-effect-container {
+    position: fixed; 
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+    pointer-events: none; 
+    z-index: 2000; 
+    overflow: hidden; 
+}
+
+.star-particle {
+    position: absolute; 
+    width: 8px;
+    height: 8px;
+    background-color: gold;
+    border-radius: 50%;
+    opacity: 0; 
+    animation: starBurst 1s ease-out forwards;
+    box-shadow: 0 0 5px gold, 0 0 10px yellow;
+}
+
+@keyframes starBurst {
+    0% {
+        transform: scale(0.3) translate(0, 0); 
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.8;
+    }
+    100% {
+        transform: scale(1.2) translate(var(--tx, 0px), var(--ty, 0px));
+        opacity: 0;
+    }
+}
+
+@keyframes starUpgradePulse {
+    0% { transform: scale(1) rotate(0deg); color: #FFD700; }
+    30% { transform: scale(1.6) rotate(15deg); color: #FFFACD; } 
+    60% { transform: scale(0.8) rotate(-10deg); color: #FFEC8B; } 
+    100% { transform: scale(1) rotate(0deg); color: #FFD700; }
+}
+
+/* Statistics and Leaderboard Styling */
+#stats-container {
+    background-color: white;
+    padding: 15px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    margin-bottom: 20px;
+    border: 1px solid #e9ecef;
+}
+#stats-container p {
+    margin: 8px 0;
+    font-size: 0.95em;
+    color: #343a40;
+}
+#stats-container p span {
+    font-weight: bold;
+    color: var(--button-hover-bg);
+}
+
+#challenges-container {
+    text-align: center;
+    margin-bottom: 15px;
+    font-style: italic;
+    color: #6c757d;
+}
+.leaderboard-disclaimer {
+    font-size: 0.8em;
+    font-style: italic;
+    text-align: center;
+    color: #6c757d;
+    margin-bottom: 10px;
+}
+
+#leaderboard-list {
+    list-style-type: none;
+    padding-left: 0;
+    margin: 0 auto 15px auto;
+    max-width: 500px; /* Or adjust as needed */
+    background-color: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    border: 1px solid #e9ecef;
+}
+#leaderboard-list li {
+    padding: 10px 15px;
+    border-bottom: 1px solid #f1f1f1;
+    font-size: 0.9em;
+    color: #495057;
+}
+#leaderboard-list li:last-child {
+    border-bottom: none;
+}
+#leaderboard-list li.current-user-leaderboard {
+    background-color: var(--secondary-color);
+    color: var(--text-color);
+    font-weight: bold;
+    border-left: 5px solid var(--button-hover-bg);
+}
+
+#current-user-rank-info {
+    text-align: center;
+    font-size: 0.95em;
+    font-weight: 500;
+    margin-top: 10px;
+    color: #343a40;
+}
+#current-user-rank-info strong {
+    color: var(--button-hover-bg);
+}
+
+
+/* SETTINGS SCREEN */
+#settings-screen div { margin-bottom: 15px; padding: 15px; background-color: white; border-radius: var(--border-radius); box-shadow: var(--box-shadow); }
+#settings-screen label { display: block; margin-bottom: 8px; font-weight: bold; }
+#settings-screen select, #settings-screen input[type="text"] { width: 100%; padding: 10px; border-radius: var(--border-radius); border: 1px solid #ccc; box-sizing: border-box; margin-bottom: 10px; }
+#settings-screen button { 
+    padding: 10px 15px;
+    background-color: var(--button-bg);
+    color: white;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.2s;
+    display: inline-block; 
+}
+#settings-screen button:hover {
+    background-color: var(--button-hover-bg);
+}
+#reward-code-section button { 
+    margin-top: 5px; 
+}
+#reset-data-btn { 
+    display: block;
+    width: auto; 
+    margin: 20px auto 0 auto; 
+}
+
+
+/* RESPONSIVE DESIGN */
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        gap: 10px;
+        align-items: stretch;
+    }
+    .user-info {
+        justify-content: center;
+        text-align: center;
+        width: 100%;
+    }
+    .header-actions {
+        width: 100%;
+        justify-content: center;
+    }
+
+     #main-nav {
+        justify-content: space-around;
+        gap: 5px;
+    }
+    .nav-btn {
+        flex-grow: 1;
+        font-size: 0.8em;
+        padding: 8px 3px;
+        min-width: 0;
+        text-align: center;
+    }
+    .tasks-grid, .options-grid, .store-grid, .collection-grid {
+        grid-template-columns: 1fr;
+    }
+    .popup { width: 95%; }
+
+    .chat-bubble {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        border-radius: var(--border-radius);
+    }
+    .chat-bubble::before { content: none; }
+    .sarah-chat-avatar { margin-bottom: 10px; }
+
+    #question-container { font-size: 1.2em; }
+    .option-btn { font-size: 0.95em; padding: 12px; }
+    .pets-collection-grid {
+        grid-template-columns: 1fr;
+    }
+    #chien-tuong-avatar { width: 180px; height: 180px; } 
+    .stars-display { font-size: 1.8em; }
+}
+
+@media (max-width: 480px) {
+    .nav-btn { font-size: 0.7em; padding: 7px 2px; }
+    .popup h2 { font-size: 1.3em; } .popup h3 { font-size: 1.1em; }
+    .store-item h4, .collection-item h4 { font-size: 0.95em; }
+    .buy-btn, .small-btn, .care-btn, .equip-item-btn { padding: 6px 10px; font-size: 0.9em; }
+    .collection-item { min-height: 100px; }
+    .collection-item .item-icon { width: 50px; height: 50px;}
+    .collection-item .item-icon.emoji-icon {font-size: 2em; line-height: 50px;}
+    .user-info img { width: 40px; height: 40px; }
+    .user-info > div { font-size: 0.9em; }
+    .points-info { font-size: 0.9em; }
+    .title-badge { font-size: 0.7em; }
+
+    .pet-collection-item { min-height: 200px; }
+    .pet-health-text { font-size: 0.8em; }
+    .pet-care-actions { flex-direction: column; gap: 8px; }
+    .care-btn { width: 80%; margin: 0 auto; font-size: 0.8em; padding: 7px; }
+
+    #settings-screen input[type="text"], #settings-screen select {
+        font-size: 0.9em;
+    }
+    #settings-screen button {
+        font-size: 0.9em;
+    }
+    #chien-tuong-avatar { width: 140px; height: 140px; } 
+    .stars-display { font-size: 1.5em; }
+    #chien-tuong-level-name { font-size: 1em; }
+    .chien-luc-text { font-size: 1em; }
+    #chien-luc-value { font-size: 1em; }
+    #stats-container p { font-size: 0.9em; }
+    #leaderboard-list li { font-size: 0.85em; }
+    #achievements-screen h4 { font-size: 1em; }
+
+}
+
+/* Fireworks Animation */
+.fireworks-effect {
+    position: fixed;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 5rem;
+    animation: fireworks-burst 1s ease-out forwards;
+    z-index: 2000;
+    pointer-events: none;
+    text-shadow: 0 0 5px rgba(255,215,0,0.7), 0 0 10px rgba(255,215,0,0.5);
+}
+@keyframes fireworks-burst {
+    0% { opacity: 1; transform: translate(-50%, -50%) scale(0.5); }
+    50% { opacity: 0.8; transform: translate(-50%, -50%) scale(1.2); }
+    100% { opacity: 0; transform: translate(-50%, -50%) scale(1.8); }
+}

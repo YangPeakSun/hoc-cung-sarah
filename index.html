@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Học Cùng Cô Sarah</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- API Key Input -->
+    <div id="api-key-setup" class="popup-overlay hidden">
+        <div class="popup">
+            <h2>Thiết lập API Key Gemini</h2>
+            <p>Để sử dụng chức năng tạo đề tự động, vui lòng nhập API Key của bạn.
+               <br><strong>CẢNH BÁO:</strong> Không chia sẻ API Key này. Key chỉ dùng cho mục đích cá nhân khi chạy trên máy của bạn.
+            </p>
+            <input type="password" id="gemini-api-key-input" placeholder="Nhập Gemini API Key tại đây">
+            <button id="save-api-key-btn">Lưu và Tiếp tục</button>
+            <button id="skip-api-key-btn">Bỏ qua (Dùng câu hỏi mẫu)</button>
+             <p style="font-size: 0.8em; margin-top: 10px;">API Key sẽ được lưu trữ trong trình duyệt cho các lần chơi sau trên máy này.</p>
+        </div>
+    </div>
+
+    <!-- ONBOARDING POPUPS -->
+    <div id="onboarding-overlay" class="popup-overlay hidden">
+        <div id="welcome-popup" class="popup active">
+            <h2>🎉 Học Cùng Cô Sarah 🎉</h2>
+            <p>Chào mừng đến với lớp học vui nhộn!</p>
+            <button id="start-onboarding-btn">Bắt đầu nào!</button>
+        </div>
+
+        <div id="name-popup" class="popup hidden">
+            <h3>Chào bạn nhỏ, em tên gì?</h3>
+            <input type="text" id="student-name-input" placeholder="Nhập tên của em">
+            <button id="submit-name-btn">Tiếp theo</button>
+        </div>
+
+        <div id="chien-tuong-popup" class="popup hidden"> <!-- MODIFIED: Was avatar-popup -->
+            <h3>Hãy chọn Chiến tướng</h3>
+            <p style="font-size: 0.9em; margin-bottom: 15px;">Mỗi Chiến tướng mang một sức mạnh nguyên tố đặc biệt!</p>
+            <div class="chien-tuong-selection"> <!-- MODIFIED: Was avatar-selection -->
+                <div class="chien-tuong-card" data-avatar="Images/avatar1.png" data-element="moc" data-element-name="Mộc">
+                    <img src="Images/avatar1.png" alt="Chiến tướng Mộc">
+                    <div class="element-name">Mộc Tinh</div>
+                    <div class="element-effect moc-effect">
+                        <div class="leaf"></div><div class="leaf"></div><div class="leaf"></div>
+                    </div>
+                </div>
+                <div class="chien-tuong-card" data-avatar="Images/avatar2.png" data-element="kim" data-element-name="Kim">
+                    <img src="Images/avatar2.png" alt="Chiến tướng Kim">
+                    <div class="element-name">Kim Sư</div>
+                    <div class="element-effect kim-effect">
+                        <div class="spark"></div><div class="spark"></div><div class="spark"></div>
+                    </div>
+                </div>
+                <div class="chien-tuong-card" data-avatar="Images/avatar3.png" data-element="thuy" data-element-name="Thủy">
+                    <img src="Images/avatar3.png" alt="Chiến tướng Thủy">
+                    <div class="element-name">Thủy Long</div>
+                    <div class="element-effect thuy-effect">
+                        <div class="drop"></div><div class="drop"></div><div class="drop"></div>
+                    </div>
+                </div>
+                <div class="chien-tuong-card" data-avatar="Images/avatar4.png" data-element="hoa" data-element-name="Hỏa">
+                    <img src="Images/avatar4.png" alt="Chiến tướng Hỏa">
+                    <div class="element-name">Hỏa Phụng</div>
+                    <div class="element-effect hoa-effect">
+                        <div class="flame"></div><div class="flame"></div><div class="flame"></div>
+                    </div>
+                </div>
+                <div class="chien-tuong-card" data-avatar="Images/avatar5.png" data-element="tho" data-element-name="Thổ">
+                    <img src="Images/avatar5.png" alt="Chiến tướng Thổ">
+                    <div class="element-name">Thổ Địa</div>
+                    <div class="element-effect tho-effect">
+                        <div class="rock"></div><div class="rock"></div><div class="rock"></div>
+                    </div>
+                </div>
+            </div>
+            <button id="confirm-chien-tuong-btn" class="hidden">Chọn Chiến tướng này</button>
+        </div>
+
+
+        <div id="age-popup" class="popup hidden">
+            <h3>Hãy cho cô Sarah biết, em mấy tuổi rồi?</h3>
+            <select id="student-age-select">
+                <option value="6">6 tuổi (Lớp 1)</option>
+                <option value="7">7 tuổi (Lớp 2)</option>
+                <option value="8">8 tuổi (Lớp 3)</option>
+                <option value="9">9 tuổi (Lớp 4)</option>
+                <option value="10">10 tuổi (Lớp 5)</option>
+                <option value="11">11 tuổi (Lớp 6)</option>
+                <option value="12">12 tuổi (Lớp 7)</option>
+                <option value="13">13 tuổi (Lớp 8)</option>
+                <option value="14">14 tuổi (Lớp 9)</option>
+            </select>
+            <button id="submit-age-btn">Hoàn tất</button>
+        </div>
+    </div>
+
+    <!-- MAIN APPLICATION AREA -->
+    <div id="app-container" class="hidden">
+        <header>
+            <div class="user-info">
+                <img id="user-avatar-display" src="Images/avatar1.png" alt="User Avatar">
+                <div>
+                    <span id="user-name-display">Tên Học Sinh</span><br>
+                    <span id="user-title-display" class="title-badge">Chưa có danh hiệu</span><br>
+                    <span class="points-info">Tổng điểm: <span id="user-points-display">0</span> 🌟</span>
+                </div>
+            </div>
+            <div class="header-actions">
+                <button id="config-api-key-btn" class="small-btn" title="Cấu hình API Key Gemini">🔑 API</button>
+                <button id="logout-btn" class="small-btn">Đăng xuất</button>
+            </div>
+        </header>
+
+        <nav id="main-nav">
+            <button data-screen="dashboard" class="nav-btn active">Trang Chủ</button>
+            <button data-screen="learning" class="nav-btn">Học Cùng Sarah</button>
+            <button data-screen="store" class="nav-btn">Cửa Hàng</button>
+            <button data-screen="achievements" class="nav-btn">Thành Tích</button>
+            <button data-screen="collections" class="nav-btn">Bộ Sưu Tập</button>
+            <button data-screen="settings" class="nav-btn">Cài Đặt</button>
+        </nav>
+
+        <main>
+            <!-- DASHBOARD SCREEN -->
+            <section id="dashboard-screen" class="screen active">
+                <h2>Nhiệm Vụ Hàng Ngày</h2>
+                <div class="progress-bar-container">
+                    <div id="daily-task-progress" class="progress-bar"></div>
+                </div>
+                <p id="daily-task-status">Hoàn thành: 0/5</p>
+
+                <div id="sarah-chat-bubble" class="chat-bubble">
+                    <img src="Images/co_sarah.png" alt="Cô Sarah" class="sarah-chat-avatar">
+                    <div class="sarah-chat-content">
+                        <strong>Cô Sarah:</strong> <span id="sarah-chat-message">Chào <span id="sarah-chat-name">em</span>, hôm nay mình cùng cố gắng nhé!</span>
+                    </div>
+                </div>
+
+                <div id="daily-tasks-list" class="tasks-grid">
+                    <!-- Tasks will be injected by JS -->
+                </div>
+            </section>
+
+            <!-- LEARNING SCREEN -->
+            <section id="learning-screen" class="screen hidden">
+                <h2>Học Cùng Sarah</h2>
+                <p id="quiz-sets-today-p">Số bộ đề đã làm hôm nay: <span id="quiz-sets-today">0</span>/20</p>
+                <p id="gemini-status" style="font-style: italic;">Chưa cấu hình API Key Gemini. Sử dụng câu hỏi mẫu.</p>
+                <button id="start-quiz-btn">Bắt đầu Làm Bài</button>
+                <div id="quiz-loading-indicator" class="hidden">Đang tải bộ đề từ Gemini, vui lòng chờ... 🧠</div>
+                <div id="quiz-area" class="hidden">
+                    <div id="quiz-timer-container" class="timer-container hidden">Thời gian còn lại: <span id="quiz-time-left">60</span> giây</div>
+                    <div id="question-container">
+                        <p id="question-text"></p>
+                        <p id="question-translation" class="translation"></p>
+                    </div>
+                    <div id="options-container" class="options-grid">
+                        <!-- Options will be injected by JS -->
+                    </div>
+                    <p id="quiz-feedback"></p>
+                    <button id="next-question-btn" class="hidden">Câu Tiếp Theo</button>
+                </div>
+                 <div id="mini-game-area" class="hidden">
+                    <h3>🎉 Phần thưởng đặc biệt! 🎉</h3>
+                    <p>Trả lời đúng câu hỏi sau để nhận mảnh ghép thú cưng hiếm!</p>
+                    <div id="mini-game-timer-container" class="timer-container hidden">Thời gian còn lại: <span id="mini-game-time-left">30</span> giây</div>
+                    <div id="mini-game-question-container">
+                         <p id="mini-game-question-text"></p>
+                    </div>
+                    <div id="mini-game-options-container" class="options-grid">
+                        <!-- Mini-game options will be injected by JS -->
+                    </div>
+                    <p id="mini-game-feedback"></p>
+                </div>
+            </section>
+
+            <!-- STORE SCREEN -->
+            <section id="store-screen" class="screen hidden">
+                <h2>Vui Chơi & Cửa Hàng</h2>
+                <div class="tabs">
+                    <button class="tab-button active" data-tab="pets-store">Thú Cưng</button>
+                    <button class="tab-button" data-tab="accessories-store">Phụ Kiện</button>
+                    <button class="tab-button" data-tab="skills-store">Kỹ Năng</button>
+                    <button class="tab-button" data-tab="care-items-store">Chăm Sóc</button>
+                </div>
+                <div id="pets-store" class="tab-content active store-grid">
+                    <!-- Pet items will be injected by JS -->
+                </div>
+                <div id="accessories-store" class="tab-content store-grid">
+                    <!-- Accessory items will be injected by JS -->
+                </div>
+                <div id="skills-store" class="tab-content store-grid">
+                    <!-- Skill items will be injected by JS -->
+                </div>
+                <div id="care-items-store" class="tab-content store-grid">
+                    <!-- Care items will be injected by JS -->
+                </div>
+                <div id="lucky-spin-container" style="margin-top: 20px; text-align: center;">
+                    <p>Bạn có <span id="spin-count">0</span> lượt quay Vòng Quay May Mắn.</p>
+                    <button id="spin-wheel-btn" disabled>Quay!</button>
+                    <p id="spin-result"></p>
+                </div>
+            </section>
+
+            <!-- ACHIEVEMENTS SCREEN -->
+            <section id="achievements-screen" class="screen hidden">
+                <div id="chien-tuong-display" class="chien-tuong-container">
+                    <h3>Chiến Tướng Của Em</h3>
+                    <div class="chien-tuong-avatar-stars">
+                        <img id="chien-tuong-avatar" src="Images/avatar1.png" alt="Chiến Tướng Avatar">
+                        <div id="chien-tuong-stars-container" class="stars-display">
+                            <!-- Stars will be injected by JS: e.g. <span class="star">★</span> -->
+                        </div>
+                    </div>
+                    <p id="chien-tuong-level-name">Chưa có</p> <!-- Text will be set by JS -->
+                    <p id="chien-tuong-chien-luc-display" class="chien-luc-text">Chiến lực: <span id="chien-luc-value">0</span></p>
+                </div>
+                <div id="chien-tuong-upgrade-effect-container"></div>
+
+                <h3>Thống kê</h3>
+                <div id="stats-container">
+                    <p>Bộ đề đã làm hôm nay: <span id="stats-quiz-sets-today">0</span></p>
+                    <p>Nhiệm vụ hoàn thành hôm nay: <span id="stats-daily-tasks-completed">0</span></p>
+                    <p>Số thú cưng đang sở hữu: <span id="stats-pets-owned-count">0</span></p>
+                    <p>Số danh hiệu đã mở khóa: <span id="stats-titles-unlocked-count">0</span></p>
+                </div>
+
+                <h3>Thử thách & Bảng Xếp Hạng</h3>
+                <div id="challenges-container">
+                    <p><em>Phần thử thách sẽ sớm được cập nhật!</em></p>
+                </div>
+                <h4>Bảng Xếp Hạng Chiến Lực (Top 10 Toàn Server*)</h4>
+                <p class="leaderboard-disclaimer">(*Chỉ tính người chơi trên trình duyệt này)</p>
+                <ol id="leaderboard-list">
+                    <!-- Leaderboard items will be injected by JS -->
+                </ol>
+                <p id="current-user-rank-info"></p>
+
+            </section>
+
+            <!-- COLLECTIONS SCREEN -->
+            <section id="collections-screen" class="screen hidden">
+                <h2>Bộ Sưu Tập</h2>
+
+                <h3>Thú Cưng Đã Sở Hữu</h3>
+                <div id="owned-pets-collection" class="collection-grid pets-collection-grid">
+                    <!-- Pets will be injected by JS -->
+                </div>
+
+                <h3>Phụ Kiện Đã Có</h3>
+                <div id="owned-accessories-collection" class="collection-grid">
+                    <!-- Accessories will be injected by JS, example:
+                    <div class="collection-item accessory-collection-item">
+                        <div class="item-icon emoji-icon">👒</div>
+                        <h4>Mũ Thời Trang</h4>
+                        <button class="equip-accessory-btn small-btn" data-item-id="hat_accessory">Gắn cho Pet</button>
+                    </div>
+                     -->
+                </div>
+
+                <h3>Kỹ Năng Đã Học</h3>
+                <div id="owned-skills-collection" class="collection-grid">
+                    <!-- Skills will be injected by JS, example:
+                    <div class="collection-item skill-collection-item">
+                        <div class="item-icon emoji-icon">🌪️</div>
+                        <h4>Lốc Xoáy</h4>
+                        <button class="equip-skill-btn small-btn" data-item-id="tornado_skill">Gắn cho Pet</button>
+                    </div>
+                    -->
+                </div>
+
+                <h3>Danh Hiệu Đã Mở Khóa</h3>
+                <div id="unlocked-titles-collection" class="collection-grid titles-collection">
+                    <!-- Titles will be injected by JS -->
+                </div>
+            </section>
+
+            <!-- SETTINGS SCREEN -->
+            <section id="settings-screen" class="screen hidden">
+                <h2>Cài Đặt</h2>
+                <div>
+                    <label for="font-select">Chọn Font chữ:</label>
+                    <select id="font-select">
+                        <option value="'Montserrat', sans-serif">Montserrat (Mặc định)</option>
+                        <option value="Arial, sans-serif">Arial</option>
+                        <option value="'Times New Roman', Times, serif">Times New Roman</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="theme-select">Chọn Màu nền (Pastel):</label>
+                    <select id="theme-select">
+                        <option value="default">Mặc định (Hồng nhạt)</option>
+                        <option value="blue">Xanh dương nhạt</option>
+                        <option value="green">Xanh lá nhạt</option>
+                        <option value="yellow">Vàng nhạt</option>
+                    </select>
+                </div>
+                <div id="reward-code-section">
+                    <label for="reward-code-input">Nhập Mã Khen Thưởng:</label>
+                    <input type="text" id="reward-code-input" placeholder="Ví dụ: emyeubame">
+                    <button id="submit-reward-code-btn">Nhận Thưởng</button>
+                </div>
+                 <button id="reset-data-btn" class="warning-btn">Xóa toàn bộ dữ liệu (Làm lại từ đầu)</button>
+            </section>
+        </main>
+    </div>
+
+    <!-- GENERAL POPUP FOR NOTIFICATIONS/CONFIRMATIONS -->
+    <div id="general-popup-overlay" class="popup-overlay hidden">
+        <div id="general-popup" class="popup">
+            <h3 id="general-popup-title">Thông báo</h3>
+            <div id="general-popup-message-container"> <!-- Container để chứa nội dung động -->
+                 <p id="general-popup-message">Nội dung thông báo.</p>
+            </div>
+            <div id="general-popup-actions">
+                <button id="general-popup-confirm-btn">Đồng ý</button>
+                <button id="general-popup-cancel-btn" class="hidden">Hủy</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="main.js"></script>
+</body>
+</html>
